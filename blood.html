@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blood Donation Portal for India - Register, Request, and Learn about Blood Donation">
+    <meta name="keywords" content="blood donation, India, blood request, donate blood, blood donation portal">
+    <meta name="author" content="Blood Donation Hospital">
+    <title>Blood Donation Portal - India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-red-600 text-white py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Blood Donation Portal</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#home" class="hover:underline">Home</a></li>
+                    <li><a href="#register" class="hover:underline">Register</a></li>
+                    <li><a href="#request" class="hover:underline">Request</a></li>
+                    <li><a href="#gallery" class="hover:underline">Gallery</a></li>
+                    <li><a href="#info" class="hover:underline">Info</a></li>
+                    <li><a href="admin.html" class="hover:underline">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Section with Slider -->
+        <section id="home" class="mb-12">
+            <div class="swiper home-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1584466977773-e625c37cdd50?w=1200&h=400&fit=crop" alt="Blood donation drive with volunteers" class="w-full h-64 md:h-96 object-cover">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                <h2 class="text-3xl md:text-5xl font-bold text-white">Save Lives: Donate Blood</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173fd1bece7?w=1200&h=400&fit=crop" alt="Medical professional preparing for blood donation" class="w-full h-64 md:h-96 object-cover">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                <h2 class="text-3xl md:text-5xl font-bold text-white">Be a Hero Today</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1607619056574-7b7aaf507e2f?w=1200&h=400&fit=crop" alt="Community blood donation event" class="w-full h-64 md:h-96 object-cover">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                <h2 class="text-3xl md:text-5xl font-bold text-white">Join Our Community</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="register" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-red-600">Register as a Donor</h2>
+            <form id="registrationForm" class="bg-white p-6 rounded-lg shadow-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" id="age" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" min="18" max="65" required>
+                    </div>
+                    <div>
+                        <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                        <select id="gender" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="bloodGroup" class="block text-sm font-medium text-gray-700">Blood Group</label>
+                        <select id="bloodGroup" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="tel" id="contact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" pattern="[0-9]{10}" required>
+                    </div>
+                    <div>
+                        <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+                        <select id="state" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <option value="">Select State</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <input type="text" id="city" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                </div>
+                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Register</button>
+            </form>
+        </section>
+
+        <!-- Blood Donation Request Section -->
+        <section id="request" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-red-600">Blood Donation Request</h2>
+            <form id="requestForm" class="bg-white p-6 rounded-lg shadow-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="patientName" class="block text-sm font-medium text-gray-700">Patient Name</label>
+                        <input type="text" id="patientName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div>
+                        <label for="reqBloodGroup" class="block text-sm font-medium text-gray-700">Required Blood Group</label>
+                        <select id="reqBloodGroup" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="reqLocation" class="block text-sm font-medium text-gray-700">Location (City)</label>
+                        <input type="text" id="reqLocation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div>
+                        <label for="urgency" class="block text-sm font-medium text-gray-700">Urgency</label>
+                        <select id="urgency" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <option value="">Select Urgency</option>
+                            <option value="Immediate">Immediate</option>
+                            <option value="Within 24 Hours">Within 24 Hours</option>
+                            <option value="Within 48 Hours">Within 48 Hours</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="reqContact" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="tel" id="reqContact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Submit Request</button>
+            </form>
+
+            <!-- Request List -->
+            <div class="mt-8">
+                <h3 class="text-2xl font-bold mb-4">Ongoing Requests</h3>
+                <div class="flex flex-col md:flex-row gap-4 mb-4">
+                    <select id="filterBloodGroup" class="border-gray-300 rounded-md shadow-sm">
+                        <option value="">Filter by Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <input type="text" id="filterLocation" class="border-gray-300 rounded-md shadow-sm" placeholder="Filter by City">
+                    <select id="filterUrgency" class="border-gray-300 rounded-md shadow-sm">
+                        <option value="">Filter by Urgency</option>
+                        <option value="Immediate">Immediate</option>
+                        <option value="Within 24 Hours">Within 24 Hours</option>
+                        <option value="Within 48 Hours">Within 48 Hours</option>
+                    </select>
+                </div>
+                <div id="requestList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery Section with Slider -->
+        <section id="gallery" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-red-600">Blood Donation Gallery</h2>
+            <div class="swiper gallery-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="https://images.unsplash.com/photo-1584466977773-e625c37cdd50?w=600&h=400&fit=crop" data-lightbox="gallery" data-title="Blood Donation Event 1">
+                            <img src="https://images.unsplash.com/photo-1584466977773-e625c37cdd50?w=600&h=400&fit=crop" alt="Volunteers at blood donation drive" class="w-full h-48 md:h-64 object-cover rounded-md">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="https://images.unsplash.com/photo-1576091160550-2173fd1bece7?w=600&h=400&fit=crop" data-lightbox="gallery" data-title="Blood Donation Event 2">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173fd1bece7?w=600&h=400&fit=crop" alt="Medical professional collecting blood" class="w-full h-48 md:h-64 object-cover rounded-md">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="https://images.unsplash.com/photo-1607619056574-7b7aaf507e2f?w=600&h=400&fit=\
+crop" data-lightbox="gallery" data-title="Blood Donation Event 3">
+                            <img src="https://images.unsplash.com/photo-1607619056574-7b7aaf507e2f?w=600&h=400&fit=crop" alt="Community blood donation event" class="w-full h-48 md:h-64 object-cover rounded-md">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="https://images.unsplash.com/photo-1581595220933-2a7ef169d8af?w=600&h=400&fit=crop" data-lightbox="gallery" data-title="Blood Donation Event 4">
+                            <img src="https://images.unsplash.com/photo-1581595220933-2a7ef169d8af?w=600&h=400&fit=crop" alt="Blood donation awareness campaign" class="w-full h-48 md:h-64 object-cover rounded-md">
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section id="info" class="mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-red-600">About Blood Donation</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-2">Types of Blood8 Donation</h3>
+                <p class="mb-4">There are several types of blood donations, including:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><strong>Whole Blood Donation:</strong> The most common type, where about a pint of blood is collected.</li>
+                    <li><strong>Platelet Donation:</strong> Platelets are separated from other blood components and collected.</li>
+                    <li><strong>Plasma Donation:</strong> Plasma is collected for patients with clotting disorders.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold mb-2">Eligibility Criteria</h3>
+                <p class="mb-4">To donate blood, you must:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Be at least 18 years old (up to 65).</li>
+                    <li>Weigh at least 50 kg.</li>
+                    <li>Be in good health with no recent surgeries or illnesses.</li>
+                    <li>Not have donated blood in the last 3 months (for whole blood).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold mb-2">Benefits of Blood Donation</h3>
+                <p class="mb-4">Donating blood:</p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Saves lives by providing blood for surgeries, accidents, and medical treatments.</li>
+                    <li>Helps maintain your own health by stimulating new blood cell production.</li>
+                    <li>Provides a free health check-up during the donation process.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold mb-2">Frequently Asked Questions</h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-semibold">Q: Is blood donation safe?</p>
+                        <p>A: Yes, it’s safe when done at certified centers with sterile equipment.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Q: How long does it take?</p>
+                        <p>A: The process takes about 45 minutes, including registration and rest.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Q: Can I donate if I have a tattoo?</p>
+                        <p>A: You can donate after 6 months from getting a tattoo, provided it was done at a licensed facility.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-red-600 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2025 Blood Donation Hospital. All rights reserved.</p>
+            <p>Contact: support@blooddonation.in | +91-1234567890</p>
+        </div>
+    </footer>
+
+    <script>
+        // Indian States
+        const states = [
+            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", 
+            "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", 
+            "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", 
+            "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", 
+            "Uttarakhand", "West Bengal"
+        ];
+
+        // Populate states dropdown
+        const stateSelect = document.getElementById('state');
+        states.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+        });
+
+        // Data storage (simulated local storage)
+        let donors = JSON.parse(localStorage.getItem('donors')) || [];
+        let requests = JSON.parse(localStorage.getItem('requests')) || [];
+
+        // Registration Form Submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const donor = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
+                contact: document.getElementById('contact').value,
+                state: document.getElementById('state').value,
+                city: document.getElementById('city').value
+            };
+
+            // Basic validation
+            if (donor.age < 18 || donor.age > 65) {
+                alert('Age must be between 18 and 65.');
+                return;
+            }
+            if (!/^[0-9]{10}$/.test(donor.contact)) {
+                alert('Please enter a valid 10-digit contact number.');
+                return;
+            }
+
+            donors.push(donor);
+            localStorage.setItem('donors', JSON.stringify(donors));
+            alert('Registration successful!');
+            this.reset();
+        });
+
+        // Request Form Submission
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const request = {
+                patientName: document.getElementById('patientName').value,
+                bloodGroup: document.getElementById('reqBloodGroup').value,
+                location: document.getElementById('reqLocation').value,
+                urgency: document.getElementById('urgency').value,
+                contact: document.getElementById('reqContact').value
+            };
+
+            // Basic validation
+            if (!/^[0-9]{10}$/.test(request.contact)) {
+                alert('Please enter a valid 10-digit contact number.');
+                return;
+            }
+
+            requests.push(request);
+            localStorage.setItem('requests', JSON.stringify(requests));
+            alert('Request submitted successfully!');
+            this.reset();
+            updateRequestList();
+        });
+
+        // Update Request List
+        function updateRequestList() {
+            const requestList = document.getElementById('requestList');
+            const filterBloodGroup = document.getElementById('filterBloodGroup').value;
+            const filterLocation = document.getElementById('filterLocation').value.toLowerCase();
+            const filterUrgency = document.getElementById('filterUrgency').value;
+
+            requestList.innerHTML = '';
+            const filteredRequests = requests.filter(req => {
+                return (
+                    (!filterBloodGroup || req.bloodGroup === filterBloodGroup) &&
+                    (!filterLocation || req.location.toLowerCase().includes(filterLocation)) &&
+                    (!filterUrgency || req.urgency === filterUrgency)
+                );
+            });
+
+            filteredRequests.forEach(req => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-100 p-4 rounded-md shadow-md';
+                div.innerHTML = `
+                    <p><strong>Patient:</strong> ${req.patientName}</p>
+                    <p><strong>Blood Group:</strong> ${req.bloodGroup}</p>
+                    <p><strong>Location:</strong> ${req.location}</p>
+                    <p><strong>Urgency:</strong> ${req.urgency}</p>
+                    <p><strong>Contact:</strong> ${req.contact}</p>
+                `;
+                requestList.appendChild(div);
+            });
+        }
+
+        // Initialize Swiper for Home Slider
+        new Swiper('.home-slider', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // Initialize Swiper for Gallery Slider
+        new Swiper('.gallery-slider', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 10,
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // Initial Load
+        updateRequestList();
+    </script>
+</body>
+</html>
