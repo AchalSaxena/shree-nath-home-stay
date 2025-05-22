@@ -1,0 +1,804 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Kalindi Saxena, a Data Analytics enthusiast with HR expertise, showcasing impactful projects in Power BI, Tableau, SQL, and R.">
+    <meta name="keywords" content="Kalindi Saxena, Data Analytics, HR Analytics, Power BI, Tableau, SQL, R, Data Visualization, Business Intelligence">
+    <meta name="author" content="Kalindi Saxena">
+    <title>Kalindi Saxena - Data Analytics Portfolio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css for Animations -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2E3A59 ;
+            --secondary-color: #f8f9fa;
+            --text-color: #1a1a1a;
+            --bg-color: #FFFFFF ;
+            --accent-color: #009688 ;
+        }
+        [data-theme="dark"] {
+            --primary-color: #ff8a80;
+            --secondary-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --bg-color: #121212;
+            --accent-color: #ffee58;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .navbar {
+            background-color: var(--bg-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: background-color 0.3s;
+        }
+        .navbar-brand, .nav-link {
+            color: var(--text-color) !important;
+            font-weight: 600;
+        }
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), #ff3d00);
+            color: #ffffff;
+            padding: 120px 0;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0.3;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            animation: animate__fadeInDown 1s ease;
+        }
+        .hero-section p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 20px auto;
+            animation: animate__fadeInUp 1s ease 0.5s both;
+        }
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+            color: var(--text-color);
+        }
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 5px;
+            background: var(--accent-color);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .card {
+            border: none;
+            border-radius: 25px;
+            background-color: var(--bg-color);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        }
+        .card-img-top {
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            height: 220px;
+            object-fit: cover;
+        }
+        .badge {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 15px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+        .modal-content {
+            border-radius: 25px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), #ff3d00);
+            color: #ffffff;
+            padding: 80px 0;
+        }
+        .footer {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 40px 0;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #e55a50;
+            transform: scale(1.05);
+        }
+        .form-control {
+            border-radius: 15px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+        }
+        .about-img {
+            border-radius: 25px;
+            max-width: 100%;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            animation: animate__zoomIn 1s ease;
+        }
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-color);
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            width: 14px;
+            height: 14px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+        .cert-carousel .carousel-item img {
+            max-height: 180px;
+            margin: 0 auto;
+            border-radius: 15px;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            border-radius: 50%;
+            padding: 10px;
+        }
+		 /* Add this at the end of your existing styles */
+    @media (max-width: 767px) {
+        .navbar {
+            padding: 10px 15px;
+        }
+        
+        .navbar-brand {
+            font-size: 16px;
+            max-width: 70%;
+        }
+        
+        .navbar-nav {
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            padding: 8px 15px !important;
+        }
+        
+        .navbar-toggler {
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        
+        .theme-toggle {
+            right: 15px;
+            top: 15px;
+            padding: 8px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+  
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Kalindi Saxena</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#resume">Resume</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">Kalindi Saxena</h1>
+            <p class="animate__animated animate__fadeInUp">Data Analytics Enthusiast with HR Domain Expertise</p>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Bridging HR insights with advanced analytics using Power BI, Tableau, SQL, and R to drive strategic business decisions.</p>
+            <div class="mt-6">
+                <a href="#projects" class="btn btn-primary me-md-3 mb-3 mb-md-0  animate__animated animate__fadeInUp animate__delay-1s">Discover My Projects</a>
+                <a href="resume.pdf" class="btn btn-outline-light animate__animated animate__fadeInUp animate__delay-1s" download>Download Resume</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="row align-items-center">
+                <div class="col-md-5 animate__animated animate__zoomIn">
+    <img src="https://i.pravatar.cc/500?img=68" alt="Kalindi Saxena" class="about-img">
+</div>
+                <div class="col-md-7">
+                    <p class="animate__animated animate__fadeInUp">A dedicated professional with 5 years of HR experience, I’m transitioning into Data Analytics to empower organizations with data-driven insights.</p>
+                    <p class="animate__animated animate__fadeInUp animate__delay-1s">Certified in Advanced HR Analytics from IIM Rohtak, I specialize in Power BI, Tableau, SQL, and R, with a passion for transforming complex data into actionable strategies.</p>
+                    <p class="animate__animated animate__fadeInUp animate__delay-1s">My corporate background and technical skills enable me to bridge HR and analytics, delivering measurable impact.</p>
+                    <h5 class="mt-4">Key Skills:</h5>
+                    <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                        <span class="badge">Power BI</span>
+                        <span class="badge">Tableau</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">R Programming</span>
+                        <span class="badge">HR Analytics</span>
+                        <span class="badge">Data Visualization</span>
+                        <span class="badge">HTML/CSS</span>
+                        <span class="badge">Bootstrap</span>
+                        <span class="badge">Microsoft Azure</span>
+                        <span class="badge">AI Tools</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="projects" class="py-5" style="background-color: var(--secondary-color);">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="row">
+                <!-- Project 1 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+                    <div class="card">
+                        <img src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="HR Attrition Dashboard">
+                        <div class="card-body">
+                            <h5 class="card-title">HR Attrition Dashboard</h5>
+                            <p class="card-text">Interactive dashboard analyzing employee attrition patterns to identify risk factors and retention strategies.</p>
+                            <div>
+                                <span class="badge">Power BI</span>
+                                <span class="badge">SQL</span>
+                                <span class="badge">HR Analytics</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project1Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card">
+                      <img src="https://images.pexels.com/photos/33129/popcorn-movie-party-entertainment.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Bollywood Industry Economic Impact">
+                        <div class="card-body">
+                            <h5 class="card-title">Bollywood Industry Economic Impact</h5>
+                            <p class="card-text">Analysis of Bollywood's economic contributions, employment, and regional impacts.</p>
+                            <div>
+                                <span class="badge">Tableau</span>
+                                <span class="badge">R</span>
+                                <span class="badge">Data Analysis</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project2Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="card">
+                    <img src="https://images.pexels.com/photos/4386433/pexels-photo-4386433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="National Economic Health Card">
+                        <div class="card-body">
+                            <h5 class="card-title">National Economic Health Card</h5>
+                            <p class="card-text">Dashboard tracking economic indicators across Indian states with comparative analysis.</p>
+                            <div>
+                                <span class="badge">Power BI</span>
+                                <span class="badge">SQL</span>
+                                <span class="badge">Data Visualization</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project3Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+                    <div class="card">
+                       <img src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Sales Dashboard">
+                        <div class="card-body">
+                            <h5 class="card-title">Sales Dashboard</h5>
+                            <p class="card-text">Interactive dashboard with regional sales breakdowns, product analysis, and trend forecasting.</p>
+                            <div>
+                                <span class="badge">Tableau</span>
+                                <span class="badge">Excel</span>
+                                <span class="badge">Business Intelligence</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project4Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 5 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card">
+                        <img src="https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Recruitment Analytics">
+                        <div class="card-body">
+                            <h5 class="card-title">Recruitment Analytics</h5>
+                         <p class="card-text">Analysis of recruitment funnel metrics, time-to-hire, and source effectiveness for HR optimization..</p>
+                            <div>
+                                <span class="badge">Power BI</span>
+                                <span class="badge">R</span>
+                                <span class="badge">HR Analytics</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project5Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 6 -->
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="card">
+                       <img src="https://images.pexels.com/photos/1181622/pexels-photo-1181622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Employee Engagement Analysis">
+                        <div class="card-body">
+                            <h5 class="card-title">Employee Engagement Analysis</h5>
+                            <p class="card-text">Correlation analysis of engagement survey results with productivity and retention metrics.</p>
+                            <div>
+                                <span class="badge">Tableau</span>
+                                <span class="badge">SQL</span>
+                                <span class="badge">People Analytics</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#project6Modal">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modals -->
+    <!-- Project 1 Modal -->
+    <div class="modal fade" id="project1Modal" tabindex="-1" aria-labelledby="project1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project1ModalLabel">HR Attrition Dashboard</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <img src="https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="img-fluid mb-3" alt="HR Attrition Dashboard">
+                    <h5>Project Overview</h5>
+                    <p>Developed an interactive Power BI dashboard to analyze employee attrition patterns across departments, experience levels, and demographics, enabling HR to implement targeted retention strategies.</p>
+                    <h5>Key Features</h5>
+                    <ul>
+                        <li>Attrition rate trends over time</li>
+                        <li>Department-wise and location-wise analysis</li>
+                        <li>Correlation with performance ratings and compensation</li>
+                        <li>Predictive insights using historical patterns</li>
+                    </ul>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Power BI</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">HR Analytics</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project 2 Modal -->
+    <div class="modal fade" id="project2Modal" tabindex="-1" aria-labelledby="project2ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project2ModalLabel">Bollywood Industry Economic Impact</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://via.placeholder.com/600x300" class="img-fluid mb-3" alt="Bollywood Industry Economic Impact">
+                    <h5>Project Overview</h5>
+                    <p>Comprehensive analysis of Bollywood's economic contributions, employment generation, and regional impacts using Tableau and R.</p>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Tableau</span>
+                        <span class="badge">R</span>
+                        <span class="badge">Data Analysis</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project 3 Modal -->
+    <div class="modal fade" id="project3Modal" tabindex="-1" aria-labelledby="project3ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project3ModalLabel">National Economic Health Card</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://via.placeholder.com/600x300" class="img-fluid mb-3" alt="National Economic Health Card">
+                    <h5>Project Overview</h5>
+                    <p>Dashboard tracking key economic indicators across Indian states with comparative analysis capabilities, built using Power BI and SQL.</p>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Power BI</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">Data Visualization</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project 4 Modal -->
+    <div class="modal fade" id="project4Modal" tabindex="-1" aria-labelledby="project4ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project4ModalLabel">Sales Dashboard</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://via.placeholder.com/600x300" class="img-fluid mb-3" alt="Sales Dashboard">
+                    <h5>Project Overview</h5>
+                    <p>Interactive sales performance dashboard with regional breakdowns, product analysis, and trend forecasting, developed using Tableau and Excel.</p>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Tableau</span>
+                        <span class="badge">Excel</span>
+                        <span class="badge">Business Intelligence</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project 5 Modal -->
+    <div class="modal fade" id="project5Modal" tabindex="-1" aria-labelledby="project5ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project5ModalLabel">Recruitment Analytics</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://via.placeholder.com/600x300" class="img-fluid mb-3" alt="Recruitment Analytics">
+                    <h5>Project Overview</h5>
+                    <p>Analysis of recruitment funnel metrics, time-to-hire, and source effectiveness for HR optimization, built using Power BI and R.</p>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Power BI</span>
+                        <span class="badge">R</span>
+                        <span class="badge">HR Analytics</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project 6 Modal -->
+    <div class="modal fade" id="project6Modal" tabindex="-1" aria-labelledby="project6ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="project6ModalLabel">Employee Engagement Analysis</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://via.placeholder.com/600x300" class="img-fluid mb-3" alt="Employee Engagement Analysis">
+                    <h5>Project Overview</h5>
+                    <p>Correlation analysis between engagement survey results and productivity/retention metrics, developed using Tableau and SQL.</p>
+                    <h5>Technologies Used</h5>
+                    <div>
+                        <span class="badge">Tableau</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">People Analytics</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resume Section -->
+    <section id="resume" class="py-5">
+        <div class="container">
+            <h2 class="section-title">My Resume</h2>
+            <!-- Education -->
+            <h3 class="mb-4">Education</h3>
+            <div class="timeline">
+                <div class="timeline-item animate__animated animate__fadeInLeft">
+                    <h5>MBA in HR & Marketing</h5>
+                    <p>DAVV University, 2018-2020</p>
+                </div>
+                <div class="timeline-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <h5>Bachelor of Engineering in Electronics & Telecommunications</h5>
+                    <p>RGPV, 2010-2014</p>
+                </div>
+            </div>
+            <!-- Work Experience -->
+            <h3 class="mb-4 mt-5">Work Experience</h3>
+            <div class="timeline">
+                <div class="timeline-item animate__animated animate__fadeInLeft">
+                    <h5>Senior HR Executive</h5>
+                    <p>BVG Group, Indore, June 2024 - Dec 2024</p>
+                    <ul>
+                        <li>Prepared detailed recruitment reports, HR budgeting, and manpower planning documents</li>
+                        <li>Created Power BI/Tableau dashboards for workforce analytics</li>
+                        <li>Led hiring for construction and corporate roles</li>
+                    </ul>
+                </div>
+                <div class="timeline-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <h5>Manager - HR and Operations</h5>
+                    <p>School IP Learning Pvt Ltd, Feb 2024 - May 2024</p>
+                    <ul>
+                        <li>Implemented educational project across 2 schools of Agrwal Group</li>
+                        <li>Oversaw HR and operational setup, recruitment, and training</li>
+                        <li>Contributed to enrollment of over 500 students</li>
+                    </ul>
+                </div>
+                <div class="timeline-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <h5>Senior HR Executive</h5>
+                    <p>Alzato Overseas Education Pvt Ltd, May 2021 - Feb 2024</p>
+                    <ul>
+                        <li>Managed HR operations across 13 branches</li>
+                        <li>Integrated Power BI, Azure, and AI tools into HR processes</li>
+                        <li>Handled recruitment, payroll, and employee engagement</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="resume.pdf" class="btn btn-primary" download>Download Full Resume (PDF)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+   <section id="certifications" class="py-5" style="background-color: var(--secondary-color);">
+    <div class="container">
+        <h2 class="section-title">Certifications</h2>
+        <div class="row g-4 justify-content-center">
+            <!-- Certification 1 -->
+            <div class="col-md-4 col-12 animate__animated animate__fadeInUp">
+                <div class="cert-card h-100 text-center p-4 rounded-4 shadow">
+                    <img src="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" 
+                         alt="Advanced HR Analytics" 
+                         class="img-fluid mb-4 rounded-3">
+                    <h4>Advanced HR Analytics</h4>
+                    <p class="text-muted mb-2">IIM Rohtak, 2024</p>
+                    <p class="mb-3">Hands-on expertise in Power BI, Tableau, R, and SQL for HR analytics.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certification 2 -->
+            <div class="col-md-4 col-12 animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="cert-card h-100 text-center p-4 rounded-4 shadow">
+                    <img src="https://images.pexels.com/photos/590041/pexels-photo-590041.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" 
+                         alt="Google Data Analytics" 
+                         class="img-fluid mb-4 rounded-3">
+                    <h4>Google Data Analytics</h4>
+                    <p class="text-muted mb-2">Google (Pursuing)</p>
+                    <p class="mb-3">Comprehensive program in data cleaning, analysis, and visualization.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certification 3 -->
+            <div class="col-md-4 col-12 animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="cert-card h-100 text-center p-4 rounded-4 shadow">
+                    <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" 
+                         alt="AI & Prompt Engineering" 
+                         class="img-fluid mb-4 rounded-3">
+                    <h4>AI & Prompt Engineering</h4>
+                    <p class="text-muted mb-2">Certification Achieved</p>
+                    <p class="mb-3">AI applications and prompt engineering for business solutions.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Certificate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="row">
+                <div class="col-md-6 animate__animated animate__fadeInLeft">
+                    <h4>Contact Information</h4>
+                    <p><i class="fas fa-envelope me-2"></i> [email protected]</p>
+                    <p><i class="fas fa-phone me-2"></i> +91 7042175822</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Mira Road, Mumbai, India</p>
+                    <h5 class="mt-4">Connect with Me</h5>
+                    <a href="https://linkedin.com" class="text-white me-3" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+                    <a href="https://github.com" class="text-white" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+                </div>
+                <div class="col-md-6 animate__animated animate__fadeInRight">
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="message" placeholder="Message" rows="5" required></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>© 2025 Kalindi Saxena. All rights reserved.</p>
+            <div class="mb-3">
+                <a href="#about" class="text-white me-3">About</a>
+                <a href="#projects" class="text-white me-3">Projects</a>
+                <a href="#resume" class="text-white me-3">Resume</a>
+                <a href="#contact" class="text-white">Contact</a>
+            </div>
+            <div>
+                <a href="https://linkedin.com" class="text-white me-3" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com" class="text-white" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <!-- Animate.css doesn't require additional JS -->
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const toggleIcon = document.querySelector('.theme-toggle i');
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                toggleIcon.classList.remove('fa-sun');
+                toggleIcon.classList.add('fa-moon');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                toggleIcon.classList.remove('fa-moon');
+                toggleIcon.classList.add('fa-sun');
+            }
+        }
+
+        // Form Validation and Submission
+        function submitForm() {
+            const form = document.getElementById('contactForm');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            if (name && email && subject && message) {
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    alert('Message sent successfully!');
+                    form.reset();
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+    </script>
+</body>
+</html>
